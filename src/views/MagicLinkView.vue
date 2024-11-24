@@ -37,7 +37,7 @@ async function signUp() {
 }
 
 async function sendMagicLink() {
-  const response = await fetch('https://j7fuh19g2k.execute-api.us-west-1.amazonaws.com/test', {
+  const response = await fetch('https://j7fuh19g2k.execute-api.us-west-1.amazonaws.com/test/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
