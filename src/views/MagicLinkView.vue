@@ -36,26 +36,53 @@ async function signUp() {
   }
 }
 
-async function sendMagicLink() {
-  const response = await fetch('https://j7fuh19g2k.execute-api.us-west-1.amazonaws.com/test/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email.value
-    })
-  }).catch(err => {
-    alert(`Failed to send magic link: ${err.message}`)
-  })
+// async function sendMagicLink() {
+//   const response = await fetch('https://j7fuh19g2k.execute-api.us-west-1.amazonaws.com/test', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       email: email.value
+//     })
+//   }).catch(err => {
+//     alert(`Failed to send magic link: ${err.message}`)
+//   })
 
-  if (response.status !== 202) {
-    const responseBody = await response.json()
-    alert(`Failed to send magic link: ${responseBody.message}`)
-  } else {
-    signInStep.value = 'SENT_MAGIC_LINK'
+//   if (response.status !== 202) {
+//     const responseBody = await response.json()
+//     alert(`Failed to send magic link: ${responseBody.message}`)
+//   } else {
+//     signInStep.value = 'SENT_MAGIC_LINK'
+//   }
+// }
+async function sendMagicLink() {
+  try {
+    const response = await fetch('https://j7fuh19g2k.execute-api.us-west-1.amazonaws.com/test', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value
+      })
+    });
+
+    if (!response.ok) {
+      // Log the entire error message and response
+      const responseBody = await response.json();
+      console.error(`Failed to send magic link: ${responseBody.message}`);
+      alert(`Failed to send magic link: ${responseBody.message}`);
+    } else {
+      signInStep.value = 'SENT_MAGIC_LINK';
+    }
+  } catch (err) {
+    // Catching any network-related errors
+    console.error(`Failed to send magic link: ${err.message}`);
+    alert(`Failed to send magic link: ${err.message}`);
   }
 }
+
 
 async function signIn(email) {
   try {
